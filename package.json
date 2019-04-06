@@ -1,0 +1,21 @@
+{
+    "name": "back-siscot",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "scripts": {
+        "start": "nodemon index.js",
+        "db:migrate": "knex migrate --knexfile=db/knexfile.js"
+    },
+    "dependencies": {
+        "express": "^4.16.4",
+        "express-graphql": "^0.7.1",
+        "graphql": "^14.2.1",
+        "knex": "^0.16.3",
+        "mysql": "^2.16.0",
+        "objection": "^1.6.7"
+    },
+    "devDependencies": {
+        "nodemon": "^1.18.10"
+    }
+}
