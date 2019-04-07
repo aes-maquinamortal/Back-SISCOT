@@ -5,7 +5,7 @@
     "license": "MIT",
     "scripts": {
         "start": "nodemon index.js",
-        "db:migrate": "knex migrate --knexfile=db/knexfile.js"
+        "db:migrate": "knex migrate:latest --knexfile=db/knexfile.js"
     },
     "dependencies": {
         "express": "^4.16.4",
