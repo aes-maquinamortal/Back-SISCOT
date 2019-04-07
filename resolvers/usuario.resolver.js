@@ -1,14 +1,20 @@
 const UsuarioModel = require('../models/usuario.model');
+const ClienteModel = require('../models/cliente.model');
+const ProveedorModel = require('../models/proveedor.model');
 const { raw } = require('objection');
 const jwt = require('jsonwebtoken');
 
 module.exports = {
     registerClient: async (args) => {
-        // TODO: crear un cliente
+        const clienteModel = await ClienteModel.query()
+            .insert(args.clienteInput);
+        return clienteModel
     },
 
     registerSupplier: async (args) => {
-        // TODO: crear un proveedor
+        const proveedorModel = await ProveedorModel.query()
+            .insert(args.proveedorInput);
+        return proveedorModel
     },
 
     login: async ({ usuario, password }) => {
