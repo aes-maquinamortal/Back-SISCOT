@@ -1,6 +1,6 @@
 
 exports.up = function(knex, Promise) {
-    Promise.all([
+    return Promise.all([
         knex.schema.createTable('propuesta', (table) => {
           table.increments('id').primary().unsigned();
           table.integer('clienteid').unsigned().references('cliente.identificacion');

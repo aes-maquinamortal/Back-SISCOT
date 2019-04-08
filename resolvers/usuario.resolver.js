@@ -4,14 +4,20 @@ const ProveedorModel = require('../models/proveedor.model');
 const { raw } = require('objection');
 const jwt = require('jsonwebtoken');
 
+_createUsuario = (usuario, password, tipo) => {
+    // TODO: crear usuario
+}
+
 module.exports = {
     registerClient: async (args) => {
+        // TODO: llamar _createUsuario(usuario, password, 'CLIENTE')
         const clienteModel = await ClienteModel.query()
             .insert(args.clienteInput);
         return clienteModel
     },
 
     registerSupplier: async (args) => {
+        // TODO: llamar _createUsuario(usuario, password, 'PROVEEDOR')
         const proveedorModel = await ProveedorModel.query()
             .insert(args.proveedorInput);
         return proveedorModel
@@ -26,7 +32,7 @@ module.exports = {
         // TODO: Validate if password is the same. Use bcrypt to check it
         const usuarioData = {
             usuario: usuarioModel[0].usuario,
-            userType: ''
+            userType: usuarioModel[0].tipo
         }
         const token = jwt.sign(usuarioData, 'somerandomkey');
         usuarioData.token = token;

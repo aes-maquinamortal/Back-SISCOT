@@ -10,7 +10,7 @@ module.exports = `
     ${proveedorSchema}
 
     type RootQuery {
-        products: [Product!]!
+        products(proveedorid: String): [Product!]!
         login(usuario: String!, password: String!): AuthData
     }
 
