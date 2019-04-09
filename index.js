@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
 const { buildSchema } = require('graphql');
@@ -11,7 +12,7 @@ const auth = require('./middleware/auth');
 require('./db/setup');
 
 const app = express();
-
+app.use(cors())
 app.use(bodyParser.json());
 app.use(auth);
 
