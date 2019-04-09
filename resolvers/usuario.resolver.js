@@ -4,15 +4,16 @@ const ProveedorModel = require('../models/proveedor.model');
 const { raw } = require('objection');
 const jwt = require('jsonwebtoken');
 
-_createUsuario = (usuario, password, tipo) => {
-    // TODO: crear usuario
+_createUsuario = (usuarioInput) => {
+    const usuarioModel = UsuarioModel.query()
+            .insert(usuarioInput);
+    return usuarioModel;
 }
 
 module.exports = {
     registerClient: async (args) => {
         // TODO: llamar _createUsuario(usuario, password, 'CLIENTE')
-        const usuarioModel = await UsuarioModel.query()
-            .insert(args.usuarioInput);
+        await _createUsuario(args.usuarioInput);
         const clienteModel = await ClienteModel.query()
             .insert(args.clienteInput);
         return clienteModel
@@ -20,8 +21,7 @@ module.exports = {
 
     registerSupplier: async (args) => {
         // TODO: llamar _createUsuario(usuario, password, 'PROVEEDOR')
-        const usuarioModel = await UsuarioModel.query()
-            .insert(args.usuarioInput);
+        await _createUsuario(args.usuarioInput);
         const proveedorModel = await ProveedorModel.query()
             .insert(args.proveedorInput);
         return proveedorModel
