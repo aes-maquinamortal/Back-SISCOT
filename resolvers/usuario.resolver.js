@@ -11,6 +11,8 @@ _createUsuario = (usuario, password, tipo) => {
 module.exports = {
     registerClient: async (args) => {
         // TODO: llamar _createUsuario(usuario, password, 'CLIENTE')
+        const usuarioModel = await UsuarioModel.query()
+            .insert(args.usuarioInput);
         const clienteModel = await ClienteModel.query()
             .insert(args.clienteInput);
         return clienteModel
@@ -18,6 +20,8 @@ module.exports = {
 
     registerSupplier: async (args) => {
         // TODO: llamar _createUsuario(usuario, password, 'PROVEEDOR')
+        const usuarioModel = await UsuarioModel.query()
+            .insert(args.usuarioInput);
         const proveedorModel = await ProveedorModel.query()
             .insert(args.proveedorInput);
         return proveedorModel
