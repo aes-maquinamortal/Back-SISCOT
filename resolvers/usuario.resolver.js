@@ -1,6 +1,7 @@
 const UsuarioModel = require('../models/usuario.model');
 const ClienteModel = require('../models/cliente.model');
 const ProveedorModel = require('../models/proveedor.model');
+const ConfigMensaje = require('../middleware/configMensaje');
 const { raw } = require('objection');
 const jwt = require('jsonwebtoken');
 
@@ -16,6 +17,7 @@ module.exports = {
         await _createUsuario(args.usuarioInput);
         const clienteModel = await ClienteModel.query()
             .insert(args.clienteInput);
+        ConfigMensaje(args.usuarioInput.correo, args.clienteInput.nombre, 'Cliente Creado', 'Se crea el Usuario');
         return clienteModel
     },
 
@@ -24,6 +26,7 @@ module.exports = {
         await _createUsuario(args.usuarioInput);
         const proveedorModel = await ProveedorModel.query()
             .insert(args.proveedorInput);
+        ConfigMensaje(args.usuarioInput.correo, args.proveedorInput.nombre, 'Proveedor Creado', 'Se crea el Usuario');
         return proveedorModel
     },
 
