@@ -2,10 +2,12 @@ const UsuarioModel = require('../models/usuario.model');
 const ClienteModel = require('../models/cliente.model');
 const ProveedorModel = require('../models/proveedor.model');
 const ConfigMensaje = require('../middleware/configMensaje');
+const bcrypt = require('bcrypt');
 const { raw } = require('objection');
 const jwt = require('jsonwebtoken');
 
 _createUsuario = (usuarioInput) => {
+    usuarioInput.password = bcrypt.hashSync(usuarioInput.password, 10);
     const usuarioModel = UsuarioModel.query()
             .insert(usuarioInput);
     return usuarioModel;
