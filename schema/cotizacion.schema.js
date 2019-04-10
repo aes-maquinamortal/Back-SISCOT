@@ -2,20 +2,23 @@ module.exports = `
     type Cotizacion {
         id: ID!
         identificacion: Int!
-        fecha: Date!
-        fecha_fin: Date!
     }
 
     type CotizacionProducto {
         id: ID!
-        identificacion: Int!
-        fecha: Date!
-        fecha_fin: Date!
+        cotizacionid: Int!
+        productoid: Int!
+        cantidad: Int!
     }
 
     input CotizacionInput {
         identificacion: Int!
-        fecha: Date!
-        fecha_fin: Date!
     }
+
+    input CotizacionProductoInput {
+        cotizacionid: Int!
+        productoid: Int!
+        cantidad: Int!
+    }
+
 `

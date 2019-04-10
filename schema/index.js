@@ -3,6 +3,7 @@ const authSchema = require('./auth.schema');
 const clienteSchema = require('./cliente.schema');
 const proveedorSchema = require('./proveedor.schema');
 const usuarioSchema = require('./usuario.schema');
+const cotizacionSchema = require('./cotizacion.schema');
 
 module.exports = `
     ${productSchema}
@@ -10,6 +11,7 @@ module.exports = `
     ${clienteSchema}
     ${proveedorSchema}
     ${usuarioSchema}
+    ${cotizacionSchema}
 
     type RootQuery {
         products(proveedorid: String): [Product!]!
@@ -20,6 +22,8 @@ module.exports = `
         createProduct(productInput: ProductInput): Product
         registerClient(clienteInput: ClienteInput, usuarioInput: UsuarioInput): Cliente
         registerSupplier(proveedorInput: ProveedorInput, usuarioInput: UsuarioInput): Proveedor
+        registerCotizacion(cotizacionInput: CotizacionInput): Cotizacion
+        registerProducto(cotizacionProductoInput: CotizacionProductoInput): CotizacionProducto
     }
 
     schema {
