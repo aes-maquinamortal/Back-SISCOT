@@ -3,9 +3,15 @@ const ProvProductoModel = require('../models/prov_producto.model');
 
 module.exports = {
     products: async (args, req) => {
-        let products = await ProductModel.query();
-        if(args.proveedorid) {
-            // TODO: make query for retrieving products created by one supplier
+        let products = [];
+        if(args.proveedorid) {  
+            products = await ProvProductoModel.query()
+                .where('proveedorid', args.proveedorid)
+                .join('producto', 'prov_producto.productoid', '=', 'producto.id')  
+                .select('producto.id', 'producto.nombre', 'producto.referencia');
+            //.where('proveedorid', args.proveedorid);
+        } else {
+            products = await ProductModel.query();
         }
         return products;
     },
