@@ -22,7 +22,7 @@ module.exports = `
         createProduct(productInput: ProductInput): Product
         registerClient(clienteInput: ClienteInput, usuarioInput: UsuarioInput): Cliente
         registerSupplier(proveedorInput: ProveedorInput, usuarioInput: UsuarioInput): Proveedor
-        registerCotizacion(cotizacionInput: CotizacionInput): Cotizacion
+        registerCotizacion(cotizacionInput: CotizacionInput, cotizacionProductoInput: [CotizacionProductoInput]): Cotizacion
         registerProducto(cotizacionProductoInput: CotizacionProductoInput): CotizacionProducto
     }
 

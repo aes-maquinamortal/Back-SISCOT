@@ -15,8 +15,8 @@ _createUsuario = (usuarioInput) => {
 
 module.exports = {
     registerClient: async (args) => {
-        // TODO: llamar _createUsuario(usuario, password, 'CLIENTE')
         await _createUsuario(args.usuarioInput);
+        args.clienteInput.usuario = args.usuarioInput.usuario;
         const clienteModel = await ClienteModel.query()
             .insert(args.clienteInput);
         ConfigMensaje(args.usuarioInput.correo, args.clienteInput.nombre, 'Cliente Creado', 'Se crea el Usuario');
@@ -24,8 +24,8 @@ module.exports = {
     },
 
     registerSupplier: async (args) => {
-        // TODO: llamar _createUsuario(usuario, password, 'PROVEEDOR')
         await _createUsuario(args.usuarioInput);
+        args.proveedorInput.usuario = args.usuarioInput.usuario;
         const proveedorModel = await ProveedorModel.query()
             .insert(args.proveedorInput);
         ConfigMensaje(args.usuarioInput.correo, args.proveedorInput.nombre, 'Proveedor Creado', 'Se crea el Usuario');
@@ -38,7 +38,10 @@ module.exports = {
         if(usuarioModel.length !== 1) {
             throw new Error('Credenciales incorrectas')
         }
-        // TODO: Validate if password is the same. Use bcrypt to check it
+        const arePasswordEqual = await bcrypt.compare(password, usuarioModel[0].password);
+        if (!arePasswordEqual)
+            throw new Error('Credenciales incorrectas')
+
         const usuarioData = {
             usuario: usuarioModel[0].usuario,
             userType: usuarioModel[0].tipo

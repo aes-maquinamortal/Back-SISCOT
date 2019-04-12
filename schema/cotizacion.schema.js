@@ -16,7 +16,6 @@ module.exports = `
     }
 
     input CotizacionProductoInput {
-        cotizacionid: Int!
         productoid: Int!
         cantidad: Int!
     }

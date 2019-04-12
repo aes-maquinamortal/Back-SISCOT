@@ -3,7 +3,6 @@ module.exports = `
         identificacion: ID!
         tipo_identificacion: String!
         nombre: String!
-        usuario: String!
         direccion: String!
     }
 
@@ -11,7 +10,6 @@ module.exports = `
         identificacion: ID!
         tipo_identificacion: String!
         nombre: String!
-        usuario: String!
         direccion: String!
     }
 `
