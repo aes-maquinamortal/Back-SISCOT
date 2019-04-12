@@ -8,7 +8,7 @@ module.exports = {
             products = await ProvProductoModel.query()
                 .where('proveedorid', args.proveedorid)
                 .join('producto', 'prov_producto.productoid', '=', 'producto.id')  
-                .select('producto.id', 'producto.nombre', 'producto.referencia');
+                .select('producto.id', 'producto.nombre', 'producto.referencia', 'producto.url');
             //.where('proveedorid', args.proveedorid);
         } else {
             products = await ProductModel.query();

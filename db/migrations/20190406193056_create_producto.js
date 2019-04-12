@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
           table.increments('id').primary().unsigned();
           table.string('nombre');
           table.string('referencia').unique();
+          table.text('url')
         })
       ])
 };
