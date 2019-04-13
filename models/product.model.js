@@ -7,7 +7,7 @@ class Product extends Model {
 
     static get relationMappings() {
         return {
-            producto: {
+            /*producto: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: path.join(__dirname, '/product.model'),
                 from: 'prov_producto.productoid',
@@ -16,7 +16,7 @@ class Product extends Model {
                     to: 'producto.id'
                 },
                 to: 'producto.id'
-            }
+            }*/
         }
     }
 }

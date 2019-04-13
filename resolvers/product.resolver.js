@@ -27,10 +27,10 @@ module.exports.Mutation = {
             product = product[0];
         }
 
-        await ProvProductoModel.query().insert({
+        /*await ProvProductoModel.query().insert({
             proveedorid: null,
             productoid: product.id
-        })
+        })*/
         
         return product;
     }
