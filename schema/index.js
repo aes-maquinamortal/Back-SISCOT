@@ -14,7 +14,7 @@ module.exports = `
     ${cotizacionSchema}
 
     type Query {
-        products(proveedorid: String): [Product!]!
+        products(proveedorid: String, productIds: [Int]): [Product!]!
         login(usuario: String!, password: String!): AuthData
         sendDate(date: String): String
     }
