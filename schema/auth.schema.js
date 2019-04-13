@@ -1,6 +1,6 @@
 module.exports = `
     type AuthData {
-        usuario: String!
+        id: ID!
         userType: String!
         token: String!
     }

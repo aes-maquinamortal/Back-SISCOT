@@ -2,7 +2,9 @@ const ProductModel = require('../models/product.model');
 const ProvProductoModel = require('../models/prov_producto.model');
 
 module.exports.Query = {
-    products: async (_, args, req) => {
+    products: async (_, args, context) => {
+        if (!context.isAuthenticated) throw new Error('Unauthorized');
+
         let products = [];
         if(args.proveedorid) {  
             products = await ProvProductoModel.query()
@@ -19,7 +21,9 @@ module.exports.Query = {
 }
 
 module.exports.Mutation = {
-    createProduct: async (_, args, req) => {
+    createProduct: async (_, args, context) => {
+        if (!context.isAuthenticated) throw new Error('Unauthorized');
+        
         let product = await ProductModel.query()
             .where('referencia', args.productInput.referencia);
 
@@ -29,10 +33,10 @@ module.exports.Mutation = {
             product = product[0];
         }
 
-        /*await ProvProductoModel.query().insert({
-            proveedorid: null,
+        await ProvProductoModel.query().insert({
+            proveedorid: context.id,
             productoid: product.id
-        })*/
+        })
         
         return product;
     }

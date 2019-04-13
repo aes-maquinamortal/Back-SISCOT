@@ -16,14 +16,13 @@ module.exports = `
     type Query {
         products(proveedorid: String, productIds: [Int]): [Product!]!
         login(usuario: String!, password: String!): AuthData
-        sendDate(date: String): String
     }
 
     type Mutation {
         createProduct(productInput: ProductInput): Product
         registerClient(clienteInput: ClienteInput, usuarioInput: UsuarioInput): Cliente
         registerSupplier(proveedorInput: ProveedorInput, usuarioInput: UsuarioInput): Proveedor
-        registerCotizacion(cotizacionInput: CotizacionInput, cotizacionProductoInput: [CotizacionProductoInput]): Cotizacion
+        registerCotizacion(cotizacionProductoInput: [CotizacionProductoInput]): Cotizacion
         registerProducto(cotizacionProductoInput: CotizacionProductoInput): CotizacionProducto
     }
 

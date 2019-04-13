@@ -11,10 +11,6 @@ module.exports = `
         cantidad: Int!
     }
 
-    input CotizacionInput {
-        identificacion: Int!
-    }
-
     input CotizacionProductoInput {
         productoid: Int!
         cantidad: Int!

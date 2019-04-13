@@ -1,29 +1,23 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = (req, res, next) => {
+module.exports.authValidation = (req) => {
     const authHeader = req.get('Authorization');
-    if (!authHeader) {
-        req.isAuthenticated = false;
-        return next();
-    }
+    let authBody = { isAuthenticated: false };
+    if (!authHeader) return authBody;
+
     const token = authHeader.split(' ')[1];
-    if(!token) {
-        req.isAuthenticated = false;
-        return next();
-    }
+    if(!token) return authBody;
+    
     let decodedToken;
     try {
         decodedToken = jwt.verify(token, 'somerandomkey')
     } catch(err) {
-        req.isAuthenticated = false;
-        return next();
+        return authBody;
     }
-    if(!decodedToken) {
-        req.isAuthenticated = false;
-        return next();
-    }
-    req.isAuthenticated = true;
-    req.usuario = decodedToken.usuario;
-    req.userType = decodedToken.userType;
-    return next();
+    if(!decodedToken) return authBody;
+
+    authBody.isAuthenticated = true;
+    authBody.id = decodedToken.id;
+    authBody.userType = decodedToken.userType;
+    return authBody;
 }

@@ -15,7 +15,7 @@ _createUsuario = (usuarioInput) => {
 
 module.exports.Query = {
     login: async (_, { usuario, password }) => {
-        const usuarioModel = await UsuarioModel.query()
+        const usuarioModel = await UsuarioModel.query().eager('[cliente, proveedor]')
             .where(raw('lower(usuario)'), usuario.toLowerCase());
         if(usuarioModel.length !== 1) {
             throw new Error('Credenciales incorrectas')
@@ -25,7 +25,7 @@ module.exports.Query = {
             throw new Error('Credenciales incorrectas')
 
         const usuarioData = {
-            usuario: usuarioModel[0].usuario,
+            id: usuarioModel[0].cliente ? usuarioModel[0].cliente.identificacion : usuarioModel[0].proveedor.nit,
             userType: usuarioModel[0].tipo
         }
         const token = jwt.sign(usuarioData, 'somerandomkey');

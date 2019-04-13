@@ -5,17 +5,17 @@ const { ApolloServer } = require('apollo-server-express');
 
 const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
-const auth = require('./middleware/auth');
+const { authValidation } = require('./middleware/auth');
 
 // starts db connection
 require('./db/setup');
 
 const app = express();
 app.use(cors())
-app.use(auth);
 
 const server = new ApolloServer({
-    typeDefs, resolvers
+    typeDefs, resolvers, 
+    context: ({ req }) => authValidation(req)
 });
 server.applyMiddleware({ app });
 
