@@ -1,10 +1,9 @@
+const { createServer } = require('http');
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
-const graphqlHttp = require('express-graphql');
-const { buildSchema } = require('graphql');
+const { ApolloServer } = require('apollo-server-express');
 
-const schema = require('./schema');
+const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
 const auth = require('./middleware/auth');
 
@@ -13,15 +12,16 @@ require('./db/setup');
 
 const app = express();
 app.use(cors())
-app.use(bodyParser.json());
 app.use(auth);
 
-app.use('/graphql', graphqlHttp({
-    schema: buildSchema(schema),
-    rootValue: resolvers,
-    graphiql: true
-}));
+const server = new ApolloServer({
+    typeDefs, resolvers
+});
+server.applyMiddleware({ app });
 
-app.listen(8888, () => {
-    console.log('Server is running on port 8888')
+const httpServer = createServer(app);
+server.installSubscriptionHandlers(httpServer);
+
+httpServer.listen(8888, () => {
+    console.log('Server is running on port 8888');
 });

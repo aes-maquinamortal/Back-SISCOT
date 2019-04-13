@@ -13,33 +13,15 @@ _createUsuario = (usuarioInput) => {
     return usuarioModel;
 }
 
-module.exports = {
-    registerClient: async (args) => {
-        await _createUsuario(args.usuarioInput);
-        args.clienteInput.usuario = args.usuarioInput.usuario;
-        const clienteModel = await ClienteModel.query()
-            .insert(args.clienteInput);
-        ConfigMensaje(args.usuarioInput.correo, args.clienteInput.nombre, 'Cliente Creado', 'Se crea el Usuario');
-        return clienteModel
-    },
-
-    registerSupplier: async (args) => {
-        await _createUsuario(args.usuarioInput);
-        args.proveedorInput.usuario = args.usuarioInput.usuario;
-        const proveedorModel = await ProveedorModel.query()
-            .insert(args.proveedorInput);
-        ConfigMensaje(args.usuarioInput.correo, args.proveedorInput.nombre, 'Proveedor Creado', 'Se crea el Usuario');
-        return proveedorModel
-    },
-
-    login: async ({ usuario, password }) => {
+module.exports.Query = {
+    login: async (_, { usuario, password }) => {
         const usuarioModel = await UsuarioModel.query()
             .where(raw('lower(usuario)'), usuario.toLowerCase());
         if(usuarioModel.length !== 1) {
             throw new Error('Credenciales incorrectas')
         }
-        const arePasswordEqual = await bcrypt.compare(password, usuarioModel[0].password);
-        if (!arePasswordEqual)
+        const arePasswordsEqual = await bcrypt.compare(password, usuarioModel[0].password);
+        if (!arePasswordsEqual)
             throw new Error('Credenciales incorrectas')
 
         const usuarioData = {
@@ -50,4 +32,24 @@ module.exports = {
         usuarioData.token = token;
         return usuarioData;
     }
+}
+
+module.exports.Mutation = {
+    registerClient: async (_, args) => {
+        await _createUsuario(args.usuarioInput);
+        args.clienteInput.usuario = args.usuarioInput.usuario;
+        const clienteModel = await ClienteModel.query()
+            .insert(args.clienteInput);
+        ConfigMensaje(args.usuarioInput.correo, args.clienteInput.nombre, 'Cliente Creado', 'Se crea el Usuario');
+        return clienteModel
+    },
+
+    registerSupplier: async (_, args) => {
+        await _createUsuario(args.usuarioInput);
+        args.proveedorInput.usuario = args.usuarioInput.usuario;
+        const proveedorModel = await ProveedorModel.query()
+            .insert(args.proveedorInput);
+        ConfigMensaje(args.usuarioInput.correo, args.proveedorInput.nombre, 'Proveedor Creado', 'Se crea el Usuario');
+        return proveedorModel
+    },
 }

@@ -1,7 +1,5 @@
 const CotizacionModel = require('../models/cotizacion.model');
 const CotizacionProductoModel = require('../models/coti_producto.model');
-const { raw } = require('objection');
-const jwt = require('jsonwebtoken');
 
 _registerCotiProducto = (cotizacionProductoInput) => {
     const cotizacionProductoModel = CotizacionProductoModel.query()
@@ -9,8 +7,8 @@ _registerCotiProducto = (cotizacionProductoInput) => {
     return cotizacionProductoModel
 }
 
-module.exports = {
-    registerCotizacion: async (args) => {
+module.exports.Mutation = {
+    registerCotizacion: async (_, args) => {
         const cotizacionModel = await CotizacionModel.query()
             .insert(args.cotizacionInput);
         args.cotizacionProductoInput.forEach(async element => {
@@ -20,7 +18,7 @@ module.exports = {
         return cotizacionModel
     },
 
-    registerProducto: async (args) => {
+    registerProducto: async (_, args) => {
         const cotizacionProductoModel = await CotizacionProductoModel.query()
             .insert(args.cotizacionProductoInput);
         return cotizacionProductoModel

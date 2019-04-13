@@ -13,12 +13,13 @@ module.exports = `
     ${usuarioSchema}
     ${cotizacionSchema}
 
-    type RootQuery {
+    type Query {
         products(proveedorid: String): [Product!]!
         login(usuario: String!, password: String!): AuthData
+        sendDate(date: String): String
     }
 
-    type RootMutation {
+    type Mutation {
         createProduct(productInput: ProductInput): Product
         registerClient(clienteInput: ClienteInput, usuarioInput: UsuarioInput): Cliente
         registerSupplier(proveedorInput: ProveedorInput, usuarioInput: UsuarioInput): Proveedor
@@ -26,8 +27,7 @@ module.exports = `
         registerProducto(cotizacionProductoInput: CotizacionProductoInput): CotizacionProducto
     }
 
-    schema {
-        query: RootQuery
-        mutation: RootMutation
+    type Subscription {
+        dashboardsRealtime: String
     }
 `
