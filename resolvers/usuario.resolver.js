@@ -23,6 +23,8 @@ module.exports.Query = {
         const arePasswordsEqual = await bcrypt.compare(password, usuarioModel[0].password);
         if (!arePasswordsEqual)
             throw new Error('Credenciales incorrectas')
+        if (usuarioModel[0].tipo === 'PROVEEDOR_EXTERNO')
+            throw new Error('Proveedor externo no puede ingresar por este portal')
 
         const usuarioData = {
             id: usuarioModel[0].cliente ? usuarioModel[0].cliente.identificacion : usuarioModel[0].proveedor.nit,
