@@ -33,10 +33,16 @@ module.exports.Mutation = {
             product = product[0];
         }
 
-        await ProvProductoModel.query().insert({
-            proveedorid: context.id,
-            productoid: product.id
-        })
+        const provProducto = await ProvProductoModel.query()
+            .where('proveedorid', context.id).andWhere('productoid', product.id);
+
+        if(provProducto.length === 0){
+            await ProvProductoModel.query().insert({
+                proveedorid: context.id,
+                productoid: product.id
+            });
+        }
+
         
         return product;
     }
