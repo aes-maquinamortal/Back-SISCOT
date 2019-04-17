@@ -16,7 +16,7 @@ module.exports.Query = {
             const availableCotizaciones = await CotizacionProductoModel.query()
                 .select('cotizacionid')
                 .whereIn('productoid', builder => {
-                    builder.select('id').from('prov_producto').where('proveedorid', context.id)
+                    builder.select('productoid').from('prov_producto').where('proveedorid', context.id)
                 })
             let cotizacionesIds = [];
             availableCotizaciones.forEach((cotiId) => {
