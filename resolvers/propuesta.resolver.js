@@ -16,6 +16,7 @@ module.exports.Mutation = {
                 propuestaid: propuestaModel.id
             });
         });
+        // TODO: send email to client
         return propuestaModel;
     }
 }
