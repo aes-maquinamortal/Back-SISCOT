@@ -1,13 +1,15 @@
 module.exports = `
     type Cotizacion {
-        id: ID!
+        id: Int!
         identificacion: Int!
+        fecha: String!
+        productos: [CotizacionProducto]
     }
 
     type CotizacionProducto {
-        id: ID!
-        cotizacionid: Int!
-        productoid: Int!
+        id: Int!
+        referencia: String!
+        nombre: String!
         cantidad: Int!
     }
 

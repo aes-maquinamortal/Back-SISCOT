@@ -1,9 +1,9 @@
 const { Model } = require('objection');
 const Producto = require('./product.model');
 
-class Cotizacion extends Model {
+class Propuesta extends Model {
     static get tableName() {
-        return 'cotizacion'
+        return 'propuesta'
     }
 
     static get relationMappings() {
@@ -12,11 +12,11 @@ class Cotizacion extends Model {
                 relation: Model.ManyToManyRelation,
                 modelClass: Producto,
                 join: {
-                    from: 'cotizacion.id',
+                    from: 'propuesta.id',
                     through: {
-                        from: 'coti_producto.cotizacionid',
-                        to: 'coti_producto.productoid',
-                        extra: ['cantidad']
+                        from: 'prop_producto.propuestaid',
+                        to: 'prop_producto.productoid',
+                        extra: ['cantidad', 'valor_unitario']
                     },
                     to: 'producto.id'
                 },
@@ -39,4 +39,4 @@ class Cotizacion extends Model {
     }
 }
 
-module.exports = Cotizacion;
+module.exports = Propuesta;

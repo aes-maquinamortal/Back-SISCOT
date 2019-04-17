@@ -1,12 +1,12 @@
 module.exports = `
     type Proveedor {
-        nit: ID!
+        nit: Int!
         nombre: String!
         direccion: String!
     }
 
     input ProveedorInput {
-        nit: ID!
+        nit: Int!
         nombre: String!
         direccion: String!
     }

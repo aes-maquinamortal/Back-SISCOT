@@ -1,6 +1,6 @@
 module.exports = `
     type Product {
-        id: ID!
+        id: Int!
         nombre: String!
         referencia: String!
         url: String!
