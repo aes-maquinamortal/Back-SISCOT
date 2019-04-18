@@ -6,6 +6,7 @@ module.exports = `
         descuento: Float!
         estado: String!
         productos: [PropuestaProducto]
+        proveedor: Proveedor
     }
 
     type PropuestaProducto {

@@ -1,5 +1,6 @@
 const { Model } = require('objection');
 const Producto = require('./product.model');
+const Proveedor = require('./proveedor.model');
 
 class Propuesta extends Model {
     static get tableName() {
@@ -20,6 +21,14 @@ class Propuesta extends Model {
                     },
                     to: 'producto.id'
                 },
+            },
+            proveedor: {
+                relation: Model.HasOneRelation,
+                modelClass: Proveedor,
+                join: {
+                    from: 'propuesta.proveedorid',
+                    to: 'proveedor.nit'
+                }
             }
         }
     }

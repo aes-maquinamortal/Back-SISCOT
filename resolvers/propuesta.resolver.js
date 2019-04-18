@@ -31,5 +31,15 @@ module.exports.Query = {
             .eager('productos');
         if(propuestasModel.length === 0) return null;
         return propuestasModel[0];
+    },
+
+    propuestas: async (_, args, context) => {
+        if (!context.isAuthenticated) throw new Error('Unauthorized');
+
+        const propuestasModel = await PropuestaModel.query()
+            .where('cotizacionid', args.cotizacionid)
+            .eager('[productos, proveedor]')
+            
+        return propuestasModel;
     }
 }

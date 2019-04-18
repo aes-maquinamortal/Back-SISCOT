@@ -21,6 +21,7 @@ module.exports = `
         cotizaciones: [Cotizacion]
         cotizacion(cotizacionid: Int!): Cotizacion!
         propuesta(cotizacionid: Int!): Propuesta
+        propuestas(cotizacionid: Int!): [Propuesta]
     }
 
     type Mutation {
