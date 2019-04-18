@@ -30,6 +30,7 @@ module.exports = `
         registerSupplier(proveedorInput: ProveedorInput, usuarioInput: UsuarioInput): Proveedor
         registerCotizacion(cotizacionProductoInput: [CotizacionProductoInput]): Cotizacion
         createPropuesta(propuestaInput: PropuestaInput!, propProductoInput: [PropProductoInput!]!): Propuesta
+        acceptPropuesta(cotizacionid: Int!, propuestaid: Int!): Propuesta
     }
 
     type Subscription {

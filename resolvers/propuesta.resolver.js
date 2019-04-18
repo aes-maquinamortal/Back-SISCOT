@@ -18,6 +18,17 @@ module.exports.Mutation = {
         });
         // TODO: send email to client
         return propuestaModel;
+    },
+
+    acceptPropuesta: async (_, args, context) => {
+        if (!context.isAuthenticated) throw new Error('Unauthorized');
+
+        await PropuestaModel.query()
+            .patch({ estado: 'RECHAZADA' })
+            .where('cotizacionid', args.cotizacionid)
+
+        return await PropuestaModel.query()
+            .patchAndFetchById(args.propuestaid, { estado: 'ACEPTADA' });
     }
 }
 
