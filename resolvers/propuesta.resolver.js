@@ -1,5 +1,8 @@
 const PropuestaModel = require('../models/propuesta.model');
 const PropProductoModel = require('../models/prop_producto.model');
+const pubSub = require('./pubsub');
+
+const TMP_TOPIC = 'proposalsBySupplierAccepted';
 
 module.exports.Mutation = {
     createPropuesta: async (_, args, context) => {
@@ -25,10 +28,13 @@ module.exports.Mutation = {
 
         await PropuestaModel.query()
             .patch({ estado: 'RECHAZADA' })
-            .where('cotizacionid', args.cotizacionid)
+            .where('cotizacionid', args.cotizacionid);
 
-        return await PropuestaModel.query()
+        const propuestaModel = await PropuestaModel.query().eager('proveedor')
             .patchAndFetchById(args.propuestaid, { estado: 'ACEPTADA' });
+
+        pubSub.publish(TMP_TOPIC, propuestaModel.proveedor.nombre);
+        return propuestaModel;
     }
 }
 
@@ -52,5 +58,31 @@ module.exports.Query = {
             .eager('[productos, proveedor]')
             
         return propuestasModel;
+    },
+
+    getProposalsDashboard: async (_, args, context) => {
+        if (!context.isAuthenticated) throw new Error('Unauthorized');
+
+        const knex = PropuestaModel.knex();
+        const result = await knex.raw(`
+            SELECT prove.nombre, IFNULL(prov.acceptedTotal, 0) AS acceptedTotal
+            FROM propuesta prop LEFT OUTER JOIN (
+                SELECT proveedorid, COUNT(estado) AS acceptedTotal 
+                FROM propuesta 
+                WHERE estado = 'ACEPTADA' 
+                GROUP BY proveedorid
+            ) prov ON prop.proveedorid = prov.proveedorid, proveedor prove
+            WHERE prop.cotizacionid = ? AND prove.nit = prop.proveedorid
+        `, [args.cotizacionid]);
+        const resultDashboards = {
+            proveedores: [],
+            propuestasAceptadas: []
+        }
+        for(let i = 0; i < result[0].length; i++) {
+            resultDashboards.proveedores.push(result[0][i].nombre);
+            resultDashboards.propuestasAceptadas.push(result[0][i].acceptedTotal);
+        }
+
+        return resultDashboards;
     }
 }

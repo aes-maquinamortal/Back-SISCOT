@@ -15,7 +15,10 @@ app.use(cors())
 
 const server = new ApolloServer({
     typeDefs, resolvers, 
-    context: ({ req }) => authValidation(req)
+    context: ({ req, payload }) => {
+        if (!req && payload) return;
+        return authValidation(req)
+    }
 });
 server.applyMiddleware({ app });
 

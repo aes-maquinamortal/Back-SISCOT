@@ -5,6 +5,7 @@ const proveedorSchema = require('./proveedor.schema');
 const usuarioSchema = require('./usuario.schema');
 const cotizacionSchema = require('./cotizacion.schema');
 const propuestaSchema = require('./propuesta.schema');
+const subscriptionsSchema = require('./subscriptions.schema');
 
 module.exports = `
     ${productSchema}
@@ -14,6 +15,7 @@ module.exports = `
     ${usuarioSchema}
     ${cotizacionSchema}
     ${propuestaSchema}
+    ${subscriptionsSchema}
 
     type Query {
         products(proveedorid: String, productIds: [Int]): [Product!]!
@@ -22,6 +24,7 @@ module.exports = `
         cotizacion(cotizacionid: Int!): Cotizacion!
         propuesta(cotizacionid: Int!): Propuesta
         propuestas(cotizacionid: Int!): [Propuesta]
+        getProposalsDashboard(cotizacionid: Int!): ProposalsBySupplier
     }
 
     type Mutation {

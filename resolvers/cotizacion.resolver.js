@@ -13,15 +13,21 @@ module.exports.Query = {
 
         let cotizacionModel = [];
         if(context.userType !== 'CLIENTE') {
-            const availableCotizaciones = await CotizacionProductoModel.query()
-                .select('cotizacionid')
-                .whereIn('productoid', builder => {
-                    builder.select('productoid').from('prov_producto').where('proveedorid', context.id)
-                })
+            const knex = CotizacionModel.knex();
+            const availableCotizaciones = await knex.raw(`
+                SELECT coti.cotizacionid 
+                FROM (SELECT cotizacionid, COUNT(productoid) AS c_products FROM coti_producto GROUP BY cotizacionid) coti,
+                     (
+                        SELECT cotizacionid, COUNT(productoid) AS c_products 
+                        FROM (SELECT coti.* FROM prov_producto prov JOIN coti_producto coti ON coti.productoid = prov.productoid WHERE proveedorid = ?) coti_prov 
+                        GROUP BY (cotizacionid)
+                     ) prov
+                WHERE coti.cotizacionid = prov.cotizacionid AND coti.c_products = prov.c_products
+            `, [context.id]);
             let cotizacionesIds = [];
-            availableCotizaciones.forEach((cotiId) => {
-                cotizacionesIds.push(cotiId.cotizacionid);
-            });
+            for(let i = 0; i < availableCotizaciones[0].length; i++) {
+                cotizacionesIds.push(availableCotizaciones[0][i].cotizacionid);
+            }
             cotizacionModel = await CotizacionModel.query().findByIds(cotizacionesIds)
                 .eager('productos');
         } else {

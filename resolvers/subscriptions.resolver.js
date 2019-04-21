@@ -1,4 +1,4 @@
-const TMP_TOPIC = 'somethinghere';
+const TMP_TOPIC = 'proposalsBySupplierAccepted';
 const pubSub = require('./pubsub');
 
 module.exports = {
