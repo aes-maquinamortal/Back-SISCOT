@@ -1,6 +1,7 @@
 const PropuestaModel = require('../models/propuesta.model');
 const PropProductoModel = require('../models/prop_producto.model');
 const pubSub = require('./pubsub');
+const ConfigMensaje = require('../middleware/configMensaje');
 
 const TMP_TOPIC = 'proposalsBySupplierAccepted';
 
@@ -19,7 +20,11 @@ module.exports.Mutation = {
                 propuestaid: propuestaModel.id
             });
         });
-        // TODO: send email to client
+        ConfigMensaje('nodejs2019@gmail.com', 'Proveedor Creado', 
+        `
+        <strong>Propuesta:</strong> ${propuestaModel.id} <br/>
+        <strong>Respondieron a tu cotización </strong> 
+        `);
         return propuestaModel;
     },
 

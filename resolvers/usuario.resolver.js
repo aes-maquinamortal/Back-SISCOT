@@ -42,7 +42,11 @@ module.exports.Mutation = {
         args.clienteInput.usuario = args.usuarioInput.usuario;
         const clienteModel = await ClienteModel.query()
             .insert(args.clienteInput);
-        ConfigMensaje(args.usuarioInput.correo, args.clienteInput.nombre, 'Cliente Creado', 'Se crea el Usuario');
+        ConfigMensaje(args.usuarioInput.correo, 'Cliente Creado', 
+        `
+        <strong>Nombre:</strong> ${args.clienteInput.nombre} <br/>
+        <strong>Mensaje:</strong> Se crea el Usuario
+        `);
         return clienteModel
     },
 
@@ -51,7 +55,11 @@ module.exports.Mutation = {
         args.proveedorInput.usuario = args.usuarioInput.usuario;
         const proveedorModel = await ProveedorModel.query()
             .insert(args.proveedorInput);
-        ConfigMensaje(args.usuarioInput.correo, args.proveedorInput.nombre, 'Proveedor Creado', 'Se crea el Usuario');
+        ConfigMensaje(args.usuarioInput.correo, 'Proveedor Creado', 
+        `
+        <strong>Nombre:</strong> ${args.proveedorInput.nombre} <br/>
+        <strong>Mensaje:</strong> Se crea el Usuario
+        `);
         return proveedorModel
     },
 }

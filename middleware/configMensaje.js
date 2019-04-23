@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-module.exports = (email, nombre, asunto, mensaje) => {
+module.exports = (email, asunto, mensaje) => {
    var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -12,11 +12,7 @@ module.exports = (email, nombre, asunto, mensaje) => {
       from: 'mailer.nodejs2019@gmail.com',
       to: `${email}`, // Cambia esta parte por el destinatario
       subject: asunto,
-      html: `
-      <strong>Nombre:</strong> ${nombre} <br/>
-      <strong>E-mail:</strong> ${email} <br/>
-      <strong>Mensaje:</strong> ${mensaje}
-      `
+      html: `${mensaje}`
    };
 
    transporter.sendMail(mailOptions, function (err, info) {
