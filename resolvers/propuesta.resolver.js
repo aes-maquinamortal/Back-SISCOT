@@ -20,7 +20,15 @@ module.exports.Mutation = {
                 propuestaid: propuestaModel.id
             });
         });
-        ConfigMensaje('nodejs2019@gmail.com', 'Proveedor Creado', 
+
+        let email = await PropuestaModel.query()
+                .where('id', propuestaModel.id)
+                .join('cotizacion', 'propuesta.cotizacionid', '=', 'cotizacion.id')  
+                .join('cliente', 'cotizacion.identificacion', '=', 'cliente.identificacion')  
+                .join('usuario', 'cliente.usuario', '=', 'usuario.usuario')  
+                .select('usuario.correo');
+
+        ConfigMensaje(email, 'Proveedor Creado', 
         `
         <strong>Propuesta:</strong> ${propuestaModel.id} <br/>
         <strong>Respondieron a tu cotización </strong> 
